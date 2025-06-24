@@ -32,7 +32,9 @@ class PostController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'title' => 'required|unique:posts',
+            'title' => 'required',
+            'content' => 'required',
+            
         ]);
 
         if ($validator->fails()) {
