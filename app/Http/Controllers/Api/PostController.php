@@ -3,7 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+
+use function PHPUnit\Framework\returnSelf;
 
 class PostController extends Controller
 {
@@ -12,7 +18,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        return "List Post API";
+        $posts = Post::select('id', 'title', 'content')->get();
+        return response()->json([
+            "message" => "List Post Successfully",
+            "data" => $posts,
+        ]);
     }
 
     /**
@@ -20,7 +30,21 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|unique:posts',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $post = Post::create($validator->validated());
+
+        return response()->json([
+            'message' => 'Create Post Successfully',
+            'data' => $post
+        ], 201);
     }
 
     /**
@@ -28,7 +52,11 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $post = Post::find($id)->select('id', 'title', 'content')->first();
+        return response()->json([
+            "message" => "Get Post Successfully",
+            "data" => $post
+        ]);
     }
 
     /**
@@ -36,7 +64,20 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+        $post = Post::find($id);
+        $post->update($validator->validated());
+
+        return response()->json([
+            'message' => 'Update Successfully',
+            'data' => $post
+        ]);
     }
 
     /**
@@ -44,6 +85,12 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $post = Post::find($id);
+        $post->delete();
+
+        return response()->json([
+            'message' => 'Delete Post Successfully',
+            'data' => true
+        ]);
     }
 }

@@ -1,25 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\Comment;
+use App\Models\Phone;
+use App\Models\Post;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class TestingController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return "List Posts...";
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $comments = Comment::with('post')->get();
+        return $comments;
     }
 
     /**
@@ -34,14 +33,6 @@ class PostController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
     {
         //
     }
