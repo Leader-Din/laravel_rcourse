@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Phone;
 use App\Models\Post;
+use App\Models\Role;
 use App\Models\User;
 
 use Illuminate\Http\Request;
@@ -17,8 +18,15 @@ class TestingController extends Controller
      */
     public function index()
     {
-        $comments = Comment::with('post')->get();
-        return $comments;
+        // $user = User::find(1);
+        // $user = $user->roles()->sync([1,2]);
+        // return "Success";
+
+        // $users = User::with('roles')->get();
+        // return $users;
+
+        $roles = Role::with('users')->get();
+        return $roles;
     }
 
     /**

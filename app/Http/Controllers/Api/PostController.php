@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\storePostRequest;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,20 +29,9 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(storePostRequest $request)
     {
-
-        $validator = Validator::make($request->all(), [
-            'title' => 'required',
-            'content' => 'required',
-            
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        $post = Post::create($validator->validated());
+        $post = Post::store($request);
 
         return response()->json([
             'message' => 'Create Post Successfully',
@@ -64,17 +54,10 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(storePostRequest $request, string $id)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required',
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-        $post = Post::find($id);
-        $post->update($validator->validated());
+        $post = Post::store($request, $id);
 
         return response()->json([
             'message' => 'Update Successfully',

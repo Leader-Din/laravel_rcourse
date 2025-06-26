@@ -22,4 +22,16 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public static function store($request, $id = null)
+    {
+        $data = $request->only('title', 'content');
+        if ($id) {
+            $post = self::find($id);
+            $post->update($data);
+        } else {
+            $post = self::create($data);
+        }
+        return $post;
+    }
 }

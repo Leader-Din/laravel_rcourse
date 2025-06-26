@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\TestingController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,8 @@ Route::delete('/posts/{id}', [PostController::class, 'destroy']);
 
 
 Route::get('/testing', [TestingController::class, 'index']);
+
+Route::get('/users', [UserController::class, 'index']);
+Route::post('/users', [UserController::class, 'store']);
+Route::put('/users/{id}', [UserController::class, 'update']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
