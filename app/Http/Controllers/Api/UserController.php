@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ListUserResource;
+use App\Http\Resources\ShowUserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -13,7 +15,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('roles')->get();
+        // $users = User::with('roles')->get();
+        $users = User::all();
+        $users = ListUserResource::collection($users);
         return response()->json([
             "message" => "List User Successfully",
             "data" => $users,
@@ -38,7 +42,12 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::find($id);
+        $user = new ShowUserResource($user);
+        return response()->json([
+            "message" => "List User Successfully",
+            "data" => $user,
+        ]);
     }
 
     /**
