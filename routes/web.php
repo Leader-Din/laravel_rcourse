@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\PostController as ApiPostController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\StudentController;
@@ -23,10 +24,11 @@ Route::prefix('students')->group(function () {
     Route::get('/', [StudentController::class, 'index']);
     Route::get('/{id}', [StudentController::class, 'show']);
 });
-Route::get('/posts', [PostController::class, 'index']);
+Route::get('/posts', [ApiPostController::class, 'index']);
 Route::fallback(function () {
     return "404 page note found!";
 });
 
 Route::resource('customer',CustomerController::class);
+Route::resource('posts', PostController::class);
 
